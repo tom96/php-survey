@@ -1,0 +1,28 @@
+<?php if ($this->notice == "missing_user_input") : ?>
+	<div class="notice error">
+		Füll die Umfrage aus du Penner
+	</div>
+<?php endif; ?>
+
+<div class="survey">
+	<form method="post" action="/">
+		<h2 class="question"><?= $this->survey->getQuestion() ?></h2>
+
+		<div class="answers">
+			<?php foreach ($this->survey->getOptions() as $key => $value) : ?>
+				<div class="form_element">
+					<span class="form_label">
+						<label for="answer[<?= $key ?>]"><?= $value ?></label>
+					</span>
+					<span class="form_value">
+						<input type="checkbox" name="answer[<?= $key ?>]" id="answer[<?= $key ?>]" />
+					</span>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		
+		<div class="form_button">
+			<input type="submit" name="survey_submit">
+		</div>
+	</form>
+</div>

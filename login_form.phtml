@@ -1,0 +1,25 @@
+<form method="post" action="/">
+	<div class="form_element">
+		<span class="form_label">
+			<label for="account_name">Benutzername: </label>
+		</span>
+		<span class="form_value">
+			<input type="text" name="account_name" id="account_name" autofocus="true" value="<?= $this->account_name ?>" />
+		</span>
+	</div>
+
+	<div class="form_element">
+		<span class="form_label">
+			<label for="account_password">Passwort: </label>
+		</span>
+		<span class="form_value">
+			<input type="password" name="account_password" id="account_password" />
+		</span>
+	</div>
+	
+	<div class="form_element">
+		<span class="form_button">
+			<input type="submit" name="account_submit" value="Einloggen" />
+		</span>
+	</div>
+</form>
