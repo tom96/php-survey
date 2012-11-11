@@ -6,6 +6,5 @@ It has a login-interface using a MySQL-database to save the account credentials 
 
 Authors:
 
-Tom Slawik <tom.slawik@gmail.com>
-
-Luca Friedrich <lucafriedrich@gmail.com>
+Tom Slawik (tom.slawik@gmail.com)
+Luca Friedrich (lucafriedrich@gmail.com)
