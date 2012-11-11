@@ -1,0 +1,35 @@
+form.form {
+	display: inline;	
+}
+
+.form .notice.error {
+	border-left: 16px solid red;
+}
+
+.form .notice.success {
+	border-left: 16px solid green;
+}
+
+.form .element {
+	margin-bottom: 16px;
+}
+
+.form .element.text span.label {
+	margin-bottom: 8px;
+	display: block;
+}
+
+.form .element.text span.control {
+	display: block;
+}
+
+.form .element.text input {
+	width: 320px;
+	height: 36px;
+	font-size: 18pt;
+}
+
+.form .element.button input {
+	width: 94px;
+	height: 40px;
+}

@@ -2,10 +2,6 @@ body {
 	font-family: Arial, Verdana, Helvetica, sans-serif;	
 }
 
-form {
-	display: inline;	
-}
-
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;	
 }

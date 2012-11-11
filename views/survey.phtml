@@ -1,6 +1,8 @@
+<link rel="stylesheet" href="/css/form.css" />
+<link rel="stylesheet" href="/css/box.css" />
 <link rel="stylesheet" href="/css/survey.css" />
 
-<div class="form survey">
+<div class="form box survey">
 	<form method="post" action="/">
 		<div class="header">
 			<h2 class="question"><?= escape($this->survey->getQuestion()) ?></h2>
@@ -18,8 +20,8 @@
 
 		<div class="content">
 			<?php foreach ($this->survey->getOptions() as $key => $value) : ?>
-				<div class="element">
-					<span class="checkbox">
+				<div class="element toggle">
+					<span class="control">
 						<input type="checkbox" name="answer[<?= escape($key) ?>]" id="answer[<?= escape($key) ?>]" />
 					</span>
 					<span class="label">
@@ -30,7 +32,7 @@
 		</div>
 
 		<div class="footer">
-			<div class="button">
+			<div class="element button">
 				<input type="submit" name="survey_cancel" value="Abbrechen">
 				<input type="submit" name="survey_submit" value="Weiter">
 			</div>

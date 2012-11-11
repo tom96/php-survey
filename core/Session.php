@@ -10,7 +10,7 @@ class Session
 	{
 		session_start();
 		
-		if ($this->getValue("logged_in")) {
+		if ($this->getValue("account_id")) {
 			$this->account = Account::find($this->getValue("account_id"));
 		}
 	}
@@ -22,7 +22,11 @@ class Session
 
 	public function getValue($key)
 	{
-		return $_SESSION[$key];		
+		if (isset($_SESSION[$key])) {
+			return $_SESSION[$key];
+		} else {
+			return null;
+		}
 	}
 
 	public function setValue($key, $value)
@@ -32,9 +36,8 @@ class Session
 	
 	public function login($account)
 	{
-		$this->setValue("logged_in", true);
 		$this->setValue("account_id", $account->getId());
-		$this->setValue("account_password", $account->getPasswordHash());
+		$this->setValue("account_password", $account->getPasswordHash()); /* TODO: To be approved every request */
 	}
 	
 	public function logout()

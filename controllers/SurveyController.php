@@ -10,11 +10,10 @@ class SurveyController extends BaseController
 		parent::__construct($application);
 		$this->template = "survey";
 		
-		if (!$this->session->getValue("survey_id"))
+		if (!$this->session->getValue("survey_id")) {
 			$this->session->setValue("survey_id", 1);
-
-		if (!$this->session->getValue("answers"))
 			$this->session->setValue("answers", array());
+		}
 		
 		$this->survey = Survey::find($this->session->getValue("survey_id"));
 	}
@@ -25,11 +24,11 @@ class SurveyController extends BaseController
 			die("You˚re not logged in!");
 		}
 		
-		if ($params["survey_cancel"]) {
+		if (isset($params["survey_cancel"])) {
 			$this->session->logout();
 			$this->redirect("/");
-		} else if ($params["survey_submit"]) {
-			if (count($params["answer"]) > 0) {
+		} else if (isset($params["survey_submit"])) {
+			if (isset($params["answer"]) && count($params["answer"]) > 0) {
 				$this->session->setValue("answers", $this->session->getValue("answers") + $params["answer"]);
 				$this->session->setValue("survey_id", $this->session->getValue("survey_id") + 1);
 				

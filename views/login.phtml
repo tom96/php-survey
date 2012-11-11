@@ -1,9 +1,11 @@
+<link rel="stylesheet" href="/css/form.css" />
+<link rel="stylesheet" href="/css/box.css" />
 <link rel="stylesheet" href="/css/login.css" />
 
-<div class="form login">
+<div class="form box login">
 	<form method="post" action="/">
 		<div class="header">
-			<h2>Anmelden</h2>
+			<h2>DoG Abimottowahl</h2>
 		</div>
 
 		<div class="notices">
@@ -27,28 +29,28 @@
 		</div>
 
 		<div class="content">
-		  	<div class="element">
+		  	<div class="element text">
 		  		<span class="label">
 		  			<label for="account_name">Benutzername: </label>
 		  		</span>
-		  		<span class="value">
+		  		<span class="control">
 		  			<input type="text" name="account_name" id="account_name" autofocus="true" value="<?= escape($this->account_name) ?>" />
 		  		</span>
 		  	</div>
 
-		  	<div class="element">
+		  	<div class="element text">
 		  		<span class="label">
 		  			<label for="account_password">Passwort: </label>
 		  		</span>
-		  		<span class="value">
+		  		<span class="control">
 		  			<input type="password" name="account_password" id="account_password" />
 		  		</span>
 		  	</div>
 		</div>
 
 		<div class="footer">
-		  	<div class="element">
-		  		<span class="button">
+		  	<div class="element button">
+		  		<span class="control">
 		  			<input type="submit" name="account_submit" value="Einloggen" />
 		  		</span>
 		  	</div>
