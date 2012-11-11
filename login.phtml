@@ -1,9 +1,57 @@
-<?php if ($this->login_failed) : ?>
-<div class="form_error">
-	Du konntest nicht angemeldet werden! Bitte überprüfe Benutzername und Passwort!
+<link rel="stylesheet" href="/css/login.css" />
+
+<div class="form login">
+	<form method="post" action="/">
+		<div class="header">
+			<h2>Anmelden</h2>
+		</div>
+
+		<div class="notices">
+			<?php foreach ($this->notices as $notice) : ?>
+				<?php if ($notice == "voting_done") : ?>
+					<div class="notice success">
+						Vielen Dank für deine Stimme!
+					</div>
+				<?php endif; ?>
+				<?php if ($notice == "invalid_credentials") : ?>
+					<div class="notice error">
+						Du konntest nicht angemeldet werden! Bitte überprüfe Benutzername und Passwort!
+					</div>
+				<?php endif; ?>
+				<?php if ($notice == "already_voted") : ?>
+					<div class="notice error">
+						Du hast bereits abgestimmt!
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="content">
+		  	<div class="element">
+		  		<span class="label">
+		  			<label for="account_name">Benutzername: </label>
+		  		</span>
+		  		<span class="value">
+		  			<input type="text" name="account_name" id="account_name" autofocus="true" value="<?= escape($this->account_name) ?>" />
+		  		</span>
+		  	</div>
+
+		  	<div class="element">
+		  		<span class="label">
+		  			<label for="account_password">Passwort: </label>
+		  		</span>
+		  		<span class="value">
+		  			<input type="password" name="account_password" id="account_password" />
+		  		</span>
+		  	</div>
+		</div>
+
+		<div class="footer">
+		  	<div class="element">
+		  		<span class="button">
+		  			<input type="submit" name="account_submit" value="Einloggen" />
+		  		</span>
+		  	</div>
+		</div>
+	</form>
 </div>
-<?php endif; ?>
-
-<br />
-
-<?php include "login_form.phtml"; ?>

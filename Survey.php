@@ -1,6 +1,6 @@
 <?php
 
-class Survey
+class Survey extends Record
 {
 	protected $question;
 	protected $options;

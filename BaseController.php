@@ -5,16 +5,29 @@ abstract class BaseController
 	protected $template;
 	protected $session;
 	
-	public function __construct($session)
+	public function __construct(Application $application)
 	{
-		$this->session = $session;		
+		$this->application = $application;
+		$this->session = $application->getSession();
+		$this->notices = array();		
 	}
 	
 	public abstract function run(array $params);
 	
 	public function render()
 	{
+
+		function escape($string)
+		{
+			return @htmlentities($string, ENT_COMPAT | ENT_HTML5);
+		}
+		
 		include "layout.phtml";	
+	}
+	
+	public function redirect($target)
+	{
+		$this->application->redirect($target);
 	}
 };
 

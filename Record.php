@@ -5,6 +5,8 @@ class Record
 	protected $id;
 	protected static $database;
 	
+	protected $fields;
+	
 	public static function getDatabase()
 	{
 		return self::$database;

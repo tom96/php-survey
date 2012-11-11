@@ -1,0 +1,77 @@
+.survey {
+	width: 800px;
+	padding: 0;
+	
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	margin-left: -400px;
+	
+	-webkit-box-shadow: 0px 0px 16px rgb(192, 192, 192);
+	-moz-box-shadow:    0px 0px 16px rgb(192, 192, 192);
+	box-shadow:         0px 0px 16px rgb(192, 192, 192);
+}
+
+.survey .header {
+	height: 56px;
+	font-family: Verdana;
+	font-size: 18px;
+	line-height: 56px;
+	text-align: center;
+	color: #fff;
+	background: url("/images/gradient-blue.png") repeat-x;
+	border: 1px solid #00008C;
+	
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.survey .notice, .survey .content, .survey .footer {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	padding: 24px 34px;
+}
+
+.survey .notice {
+	border-bottom: 1px solid #ddd;
+	border-left: 16px solid red;
+}
+
+.survey .content {
+	padding-top: 30px;
+}
+
+.survey .footer {
+	height: 48px;
+	background: #f8f8f8;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	text-align: right;
+	-webkit-border-bottom-right-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+/*
+	Form Elements
+*/
+
+.form .element {
+	margin-bottom: 16px;
+}
+
+.form span.label {
+	margin-bottom: 8px;
+}
+
+.form .button input {
+	width: 94px;
+	height: 40px;	
+}

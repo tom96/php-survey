@@ -1,28 +1,39 @@
-<?php if ($this->notice == "missing_user_input") : ?>
-	<div class="notice error">
-		Füll die Umfrage aus du Penner
-	</div>
-<?php endif; ?>
+<link rel="stylesheet" href="/css/survey.css" />
 
-<div class="survey">
+<div class="form survey">
 	<form method="post" action="/">
-		<h2 class="question"><?= $this->survey->getQuestion() ?></h2>
+		<div class="header">
+			<h2 class="question"><?= escape($this->survey->getQuestion()) ?></h2>
+		</div>
 
-		<div class="answers">
+		<div class="notices">
+			<?php foreach ($this->notices as $notice) : ?>
+				<?php if ($notice == "missing_user_input") : ?>
+					<div class="notice error">
+						Du musst mindestens eine Auswahlmöglichkeit setzen!
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="content">
 			<?php foreach ($this->survey->getOptions() as $key => $value) : ?>
-				<div class="form_element">
-					<span class="form_label">
-						<label for="answer[<?= $key ?>]"><?= $value ?></label>
+				<div class="element">
+					<span class="checkbox">
+						<input type="checkbox" name="answer[<?= escape($key) ?>]" id="answer[<?= escape($key) ?>]" />
 					</span>
-					<span class="form_value">
-						<input type="checkbox" name="answer[<?= $key ?>]" id="answer[<?= $key ?>]" />
+					<span class="label">
+						<label for="answer[<?= escape($key) ?>]"><?= escape($value) ?></label>
 					</span>
 				</div>
 			<?php endforeach; ?>
 		</div>
-		
-		<div class="form_button">
-			<input type="submit" name="survey_submit">
+
+		<div class="footer">
+			<div class="button">
+				<input type="submit" name="survey_cancel" value="Abbrechen">
+				<input type="submit" name="survey_submit" value="Weiter">
+			</div>
 		</div>
 	</form>
 </div>

@@ -5,10 +5,12 @@ require_once "Answer.php";
 
 class SurveyController extends BaseController
 {
-	public function __construct($session)
+	public function __construct(Application $application)
 	{
-		parent::__construct($session);
+		parent::__construct($application);
 		$this->template = "survey";
+		
+		$this->survey = Survey::find($this->session->getValue("survey_id"));
 	}
 	
 	public function run(array $params)
@@ -18,19 +20,32 @@ class SurveyController extends BaseController
 			/* TODO: Make this error message more beautiful */		
 		}
 		
-		if ($params["answer"]) {
+		if ($params["survey_cancel"]) {
+			$this->session->logout();
+			$this->redirect("/");
+		} else if ($params["survey_submit"]) {
 			if (count($params["answer"]) > 0) {
 				foreach ($params["answer"] as $key => $value)
 				{
-					$answer = new Answer(1, $key);
+					$answer = new Answer($this->survey->getId(), $key);
 					$answer->save();
 				}
+				
+				$this->session->setValue("survey_id", $this->session->getValue("survey_id") + 1);
+				
+				if ($this->session->getValue("survey_id") > 2) { /* hardcode :S */
+					$this->session->getAccount()->setVoted(true);
+					$this->session->getAccount()->save();
+					$this->session->logout();
+					
+					$this->session->setValue("voting_done", true);
+				}
+				
+				$this->redirect("/");
 			} else {
-				$this->notice = "missing_user_input";
+				$this->notices[] = "missing_user_input";
 			}
 		}
-		
-		$this->survey = Survey::find(1);
 		
 		parent::render();
 	}
