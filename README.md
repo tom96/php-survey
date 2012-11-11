@@ -8,4 +8,4 @@ Authors:
 
 Tom Slawik (tom.slawik@gmail.com)
 
-Luca Friedrich (lucafriedrich@gmail.com)
+Luca Friedrich (lucafriedrich@mail.com)
