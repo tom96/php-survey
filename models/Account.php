@@ -3,98 +3,42 @@
 class Account extends Record
 {
 	protected $email;
-	protected $password_hash;
+	protected $password;
 	protected $has_voted;
 	
 	public static function find($id)
 	{
-		$record = new self;
+		$stmt = Record::getDatabase()->prepare("SELECT id, email, password, has_voted FROM accounts WHERE id = :id");
 		
-		$stmt = Record::getDatabase()->prepare("SELECT id, email, password, has_voted FROM accounts WHERE id = ?");
+		$stmt->bindParam(":id", $id, PDO::PARAM_INT);
 		
-		if (!$stmt) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;			
-		}
-			
-		$stmt->bind_param("d", $id);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, __CLASS__);
+		$stmt->execute();
 		
-		if (!$stmt->execute()) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;
-		}
-		
-		$stmt->bind_result($record->id, $record->email, $record->password_hash, $record->has_voted);
-		
-		if (!$stmt->fetch()) {
-			return false;
-		}
-		
-		$stmt->close();
-		
-		return $record;
+		return $stmt->fetch();
 	}
 	
 	public static function findbyCredentials($email, $password)
-	{	
-		$record = new self;
+	{
+		$stmt = Record::getDatabase()->prepare("SELECT id, email, password, has_voted FROM accounts WHERE email = :email AND password = :password");
 		
-		$stmt = Record::getDatabase()->prepare("SELECT id, email, password, has_voted FROM accounts WHERE email = ? AND password = ?");
+		$stmt->bindParam(":email", $email, PDO::PARAM_STR);
+		$stmt->bindParam(":password", md5($password), PDO::PARAM_STR);
 		
-		if (!$stmt) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;			
-		}
-			
-		$stmt->bind_param("ss", $email, md5($password));
+		$stmt->setFetchMode(PDO::FETCH_CLASS, __CLASS__);
+		$stmt->execute();
 		
-		if (!$stmt->execute()) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;
-		}
-		
-		$stmt->bind_result($record->id, $record->email, $record->password_hash, $record->has_voted);
-		
-		if (!$stmt->fetch()) {
-			return false;
-		}
-		
-		$stmt->close();
-		
-		return $record;
+		return $stmt->fetch();
 	}
 	
 	public function save()
 	{
-		/* Update only! */
+		$stmt = Record::getDatabase()->prepare("UPDATE accounts SET has_voted = :has_voted WHERE id = :id");
 		
-		$stmt = Record::getDatabase()->prepare("UPDATE accounts SET has_voted = ? WHERE id = ?");
+		$stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+		$stmt->bindParam(":has_voted", $this->has_voted, PDO::PARAM_BOOL);
 		
-		if (!$stmt) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;			
-		}
-	
-		$stmt->bind_param("dd", $this->has_voted, $this->id);
-		
-		if (!$stmt->execute()) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;
-		}
-		
-		$this->id = Record::getDatabase()->insert_id;
+		$stmt->execute();
 		
 		return $this;
 	}
@@ -104,9 +48,9 @@ class Account extends Record
 		return $this->email;
 	}
 
-	public function getPasswordHash()
+	public function getPassword()
 	{
-		return $this->password_hash;
+		return $this->password;
 	}
 	
 	public function hasVoted()

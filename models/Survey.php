@@ -7,48 +7,30 @@ class Survey extends Record
 	
 	public static function find($id)
 	{
-		$stmt = Record::getDatabase()->prepare("SELECT id, question FROM surveys WHERE id = ?");
+		$stmt = Record::getDatabase()->prepare("SELECT id, question FROM surveys WHERE id = :id");
 		
-		if ($stmt) {
-			$record = new self;
-			
-			$stmt->bind_param("d", $id);
-			$stmt->execute();
-			$stmt->bind_result($record->id, $record->question);
-			$stmt->fetch();
-			$stmt->close();
-			
-			if ($record->loadOptions()) {
-				return $record;
-			}
-		}
-		
-		return false;
+		$stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+		$stmt->setFetchMode(PDO::FETCH_CLASS, __CLASS__);
+		$stmt->execute();
+
+		return $stmt->fetch()->loadOptions();
 	}
 	
 	protected function loadOptions()
 	{
 		$this->options = array();
-		$option_id;
-		$option_text;
 		
-		$stmt = Record::getDatabase()->prepare("SELECT id, text FROM options WHERE survey_id = ?");
+		$stmt = Record::getDatabase()->prepare("SELECT id, text FROM options WHERE survey_id = :survey_id");
 		
-		if ($stmt) {
-			$stmt->bind_param("d", $this->id);
-			$stmt->execute();
-			$stmt->bind_result($option_id, $option_text);
-			
-			while ($stmt->fetch()) {
-				$this->options[$option_id] = $option_text;
-			}
-			
-			$stmt->close();
-			
-			return true;
+		$stmt->bindParam(":survey_id", $this->id, PDO::PARAM_INT);
+		$stmt->execute();
+		
+		while ($option = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$this->options[$option["id"]] = $option["text"];
 		}
 		
-		return false;
+		return $this;
 	}
 	
 	public function getQuestion()
@@ -61,4 +43,5 @@ class Survey extends Record
 		return $this->options;
 	}
 }
+
 ?>

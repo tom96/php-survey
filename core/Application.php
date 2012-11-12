@@ -1,6 +1,5 @@
 <?php
 
-require_once "Application.php";
 require_once "Record.php";
 require_once "Session.php";
 
@@ -9,33 +8,34 @@ require_once "LoginController.php";
 require_once "SurveyController.php";
 
 class Application
-{
-	protected $session;
+{	
+	protected $config;
 	protected $database;
+	protected $session;
 	protected $controller;
-	protected $db_config;
 	
-	public function __construct($db_config)
+	public function __construct($config)
 	{
-		$this->db_config = $db_config;
-	}
-	
-	public function __destruct()
-	{
-		$this->database->close();
+		$this->config = $config;
 	}
 	
 	public function run()
 	{
-		$this->database = new mysqli($this->db_config["host"], $this->db_config["user"],
-							$this->db_config["password"], $this->db_config["database"]);
+        $driver_options = array();
+
+        if ($this->config['db_pconnect']) {
+            $driver_options[PDO::ATTR_PERSISTENT] = true;
+        }
+
+        if ($this->config['db_charset'] == 'utf8') {
+            $driver_options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+        }
+
+		$this->database = new PDO($this->config['db_dsn'], $this->config['db_user'], $this->config['db_pass'], $driver_options);
+		$this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		Record::setDatabase($this->database);
-
-	    if ($this->database->connect_errno) {
-			throw new Exception($this->database->connect_error);
-	    }
-
+		
 		$this->session = new Session();
 
 		if ($this->session->isAuthenticated()) {

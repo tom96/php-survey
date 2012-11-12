@@ -11,14 +11,15 @@ set_include_path(get_include_path() . ":" . implode(":", $paths));
 
 require_once "Application.php";
 
-$database_config = array (
-	"host"		=> "localhost",
-	"user"		=> "root",
-	"password"	=> "",
-	"database" 	=> "survey_test"
+$config = array (
+	"db_dsn"		=> "mysql:dbname=survey_test;host=localhost",
+	"db_user"		=> "root",
+	"db_pass"		=> "",
+	"db_pconnect"	=> true,
+	"db_charset"	=> "utf8"
 );
 
-$application = new Application($database_config);
+$application = new Application($config);
 $application->run();
 
 ?>

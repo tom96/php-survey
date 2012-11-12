@@ -13,25 +13,14 @@ class Answer extends Record
 	
 	public function save()
 	{
-		$stmt = Record::getDatabase()->prepare("INSERT INTO answers (account_id, option_id) VALUES (?, ?)");
+		$stmt = Record::getDatabase()->prepare("INSERT INTO answers (account_id, option_id) VALUES (:account_id, :option_id)");
 		
-		if (!$stmt) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;			
-		}
-	
-		$stmt->bind_param("dd", $this->account_id, $this->option_id);
+		$stmt->bindParam(":account_id", $this->account_id, PDO::PARAM_INT);
+		$stmt->bindParam(":option_id", $this->option_id, PDO::PARAM_INT);
 		
-		if (!$stmt->execute()) {
-		    if (Record::getDatabase()->error) {
-				throw new Exception(Record::getDatabase()->error);
-		    }
-			return false;
-		}
+		$stmt->execute();
 		
-		$this->id = Record::getDatabase()->insert_id;
+		$this->id = Record::getDatabase()->lastInsertId();
 		
 		return $this;
 	}

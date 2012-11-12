@@ -37,7 +37,6 @@ class Session
 	public function login($account)
 	{
 		$this->setValue("account_id", $account->getId());
-		$this->setValue("account_password", $account->getPasswordHash()); /* TODO: To be approved every request */
 	}
 	
 	public function logout()
