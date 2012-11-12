@@ -22,10 +22,15 @@
 			<?php foreach ($this->survey->getOptions() as $key => $value) : ?>
 				<div class="element toggle">
 					<span class="control">
-						<input type="checkbox" name="answer[<?= escape($key) ?>]" id="answer[<?= escape($key) ?>]" />
+						<?php if ($this->survey->getType() == "single") : ?>
+							<input type="radio" name="answers[]" id="answers[<?= escape($key) ?>]" value="<?= escape($key) ?>" />
+						<?php endif; ?>
+						<?php if ($this->survey->getType() == "multiple") : ?>
+							<input type="checkbox" name="answers[]" id="answers[<?= escape($key) ?>]" value="<?= escape($key) ?>" />
+						<?php endif; ?>
 					</span>
 					<span class="label">
-						<label for="answer[<?= escape($key) ?>]"><?= escape($value) ?></label>
+						<label for="answers[<?= escape($key) ?>]"><?= escape($value) ?></label>
 					</span>
 				</div>
 			<?php endforeach; ?>

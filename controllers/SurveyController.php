@@ -28,8 +28,12 @@ class SurveyController extends BaseController
 			$this->session->logout();
 			$this->redirect("/");
 		} else if (isset($params["survey_submit"])) {
-			if (isset($params["answer"]) && count($params["answer"]) > 0) {
-				$this->session->setValue("answers", $this->session->getValue("answers") + $params["answer"]);
+			if (isset($params["answers"]) && count($params["answers"]) > 0) {
+				if ($this->survey->getType() == "single") {
+					$params["answers"] = array_slice($params["answers"], 0, 1);
+				}	
+							
+				$this->session->setValue("answers", array_merge($this->session->getValue("answers"), $params["answers"]));
 				$this->session->setValue("survey_id", $this->session->getValue("survey_id") + 1);
 				
 				if ($this->session->getValue("survey_id") > 2) { /* hardcode :S */
@@ -49,9 +53,9 @@ class SurveyController extends BaseController
 	{
 		$account = $this->session->getAccount();
 		
-		foreach ($this->session->getValue("answers") as $key => $value)
+		foreach ($this->session->getValue("answers") as $value)
 		{
-			$answer = new Answer($account->getId(), $key);
+			$answer = new Answer($account->getId(), $value);
 			$answer->save();
 		}
 		

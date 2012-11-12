@@ -3,11 +3,12 @@
 class Survey extends Record
 {
 	protected $question;
+	protected $type;
 	protected $options;
 	
 	public static function find($id)
 	{
-		$stmt = Record::getDatabase()->prepare("SELECT id, question FROM surveys WHERE id = :id");
+		$stmt = Record::getDatabase()->prepare("SELECT id, question, type FROM surveys WHERE id = :id");
 		
 		$stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
@@ -41,6 +42,11 @@ class Survey extends Record
 	public function getOptions()
 	{
 		return $this->options;
+	}
+	
+	public function getType()
+	{
+		return $this->type;
 	}
 }
 
